@@ -166,7 +166,11 @@ public class VPL
  
       // implement all operations here:
       // ********************************************
-
+      // instruction 0 - 6: Sarah
+      // instructions 7 - 13: Eric
+      // instructions 14 - 20: Sara
+      // instructions 21 - 27: Ze
+      // instructions 28 - 34: Aimee
       // put your work right here!
 
       if ( op == oppCode ) {
