@@ -1,6 +1,6 @@
 ﻿# CS3210_Project1
  VPL interpreter in Java
  
- Compile VPL.java and IntPair.java
- To run in terminal: java VPL fileName.txt memorySize
- memory size is an integer value
+ Compile VPL.java and IntPair.java  
+ To run in terminal: java VPL fileName.txt memorySize  
+ memory size is an integer value  
