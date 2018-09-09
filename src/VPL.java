@@ -3,7 +3,6 @@ import java.util.*;
 
 public class VPL
 {
-
   static String fileName;
   static Scanner keys;
 
@@ -174,9 +173,9 @@ public class VPL
       // instructions 21 - 27: Ze
       // instructions 28 - 34: Aimee
 
-      if ( op == oppCode ) {
-         mem[ bp+2 + a ] = - mem[ bp+2 + b ];
-      }
+      if ( op == noopCode ) {}
+
+      
 
       // 7
       else if( op == jumpCode ){
@@ -207,6 +206,11 @@ public class VPL
       // 13
       else if ( op == remCode ){
         mem[bp + 2 + a] = b % c;
+      }
+
+      // 21
+      else if (op == oppCode){
+        mem[ bp+2 + a ] = - mem[ bp+2 + b ];
       }
 
 
