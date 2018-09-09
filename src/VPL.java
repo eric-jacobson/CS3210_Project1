@@ -3,6 +3,7 @@ import java.util.*;
 
 public class VPL
 {
+
   static String fileName;
   static Scanner keys;
 
@@ -21,6 +22,7 @@ public class VPL
     }
 
     fileName = args[0];
+    //fileName = "someUnitTests.txt";
 
     max = Integer.parseInt( args[1] );
     mem = new int[max];
@@ -128,7 +130,7 @@ public class VPL
 
     do {
 
-/*    // show details of current step
+    // show details of current step
       System.out.println("--------------------------");
       System.out.println("Step of execution with IP = " + ip + " opcode: " +
           mem[ip] + 
@@ -140,7 +142,7 @@ public class VPL
       showMem( codeEnd+1, sp+3 );
       System.out.println("hit <enter> to go on" );
       keys.nextLine();
-*/
+
 
       oldIp = ip;
 
@@ -171,12 +173,44 @@ public class VPL
       // instructions 14 - 20: Sara
       // instructions 21 - 27: Ze
       // instructions 28 - 34: Aimee
-      // put your work right here!
 
       if ( op == oppCode ) {
          mem[ bp+2 + a ] = - mem[ bp+2 + b ];
       }
 
+      // 7
+      else if( op == jumpCode ){
+        ip = mem[a];
+      }
+      // 8
+      else if( op == condJumpCode ){
+        if(b > 0){
+          ip = mem[a];
+        }
+      }
+      // 9
+      else if ( op == addCode ){
+        mem[bp + 2 + a] = b + c;
+      }
+      // 10
+      else if ( op == subCode ){
+        mem[bp + 2 + a] = b - c;
+      }
+      // 11
+      else if ( op == multCode ){
+        mem[bp + 2 + a] = b * c;
+      }
+      // 12
+      else if ( op == divCode ){
+        mem[bp + 2 + a] = b / c;
+      }
+      // 13
+      else if ( op == remCode ){
+        mem[bp + 2 + a] = b % c;
+      }
+
+
+      // put your work right here!
 
       else
       {
@@ -202,7 +236,7 @@ public class VPL
   private static final int passCode = 3;
   private static final int allocCode = 4;
   private static final int returnCode = 5;  // return a means "return and put
-           // copy of value stored in cell a in register rv
+  // copy of value stored in cell a in register rv
   private static final int getRetvalCode = 6;//op a means "copy rv into cell a"
   private static final int jumpCode = 7;
   private static final int condJumpCode = 8;
