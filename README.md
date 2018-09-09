@@ -3,4 +3,4 @@
  
  Compile VPL.java and IntPair.java  
  To run in terminal: java VPL fileName.txt memorySize  
- memory size is an integer value  
+ memorySize is an integer value  
