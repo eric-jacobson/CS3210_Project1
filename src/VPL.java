@@ -175,9 +175,31 @@ public class VPL
       // put your work right here!
 
       if ( op == noopCode ) {}
+      //1
+      else if (op == labelCode) {
 
-      
+      }
+      //2
+      else if (op == callCode) {
 
+      }
+      //3
+      else if (op == passCode) {
+        mem[sp + 2 + numPassed] = a;
+        numPassed++;
+      }
+      //4
+      else if (op == allocCode) {
+        sp+=a;
+      }
+      //5
+      else if (op == returnCode) {
+        rv = mem[bp + 2 + a];
+      }
+      //6
+      else if (op == getRetvalCode) {
+        mem[bp + 2 + a] = rv;
+      }
       // 7
       else if( op == jumpCode ){
         ip = mem[a];
