@@ -207,7 +207,53 @@ public class VPL
       else if ( op == remCode ){
         mem[bp + 2 + a] = b % c;
       }
-
+      //14
+      else if ( op == equalCode) {
+        if (b == c) {
+          mem[bp + 2 + a] = 1;
+        } else {
+          mem[bp + 2 + a] = 0;
+        }
+      }
+      //15
+      else if ( op == notEqualCode) {
+        if (b != c) {
+          mem[bp + 2 + a] = 1;
+        } else {
+          mem[bp + 2 + a] = 0;
+        }
+      }
+      //16
+      else if ( op == lessCode) {
+        if (b < c) {
+          mem[bp + 2 + a] = 1;
+        } else {
+          mem[bp + 2 + a] = 0;
+        }
+      }
+      //17
+      else if ( op == lessEqualCode) {
+        if (b <= c) {
+          mem[bp + 2 + a] = 1;
+        } else {
+          mem[bp + 2 + a] = 0;
+        }
+      }
+      //18
+      else if ( op == andCode) {
+        mem[bp + 2 + a] = b & c;
+      }
+      //19
+      else if ( op == orCode) {
+        mem[bp + 2 + a] = b | c;
+      }
+      //20
+      else if ( op == notCode) {
+        if(b == 0)
+          mem[bp + 2 + a] = 1;
+        else
+          mem[bp + 2 + a] = 0;
+      }
       // 21
       else if (op == oppCode){
         mem[ bp+2 + a ] = - mem[ bp+2 + b ];
