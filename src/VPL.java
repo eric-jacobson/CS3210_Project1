@@ -212,6 +212,36 @@ public class VPL
       else if (op == oppCode){
         mem[ bp+2 + a ] = - mem[ bp+2 + b ];
       }
+      // 22
+      else if(op == litCode){
+        mem[bp + 2 + a] = b;
+      }
+      // 23
+      else if(op == copyCode){
+        mem[bp + 2 + a] = mem[ bp + 2 + b];
+      }
+      // 24
+      else if(op == getCode){
+        mem[bp + 2 + a] = mem[hp + 1 + (mem[ bp + 2 + b] + mem[bp + 2 + c])];
+      }
+      // 25
+      else if(op == putCode){
+
+        mem[hp + 1 + (mem[bp + 2 + a] + mem[bp + 2 + b])] = mem[bp + 2 +c];
+      }
+      // 26
+      else if(op == haltCode){
+        done = true;
+      }
+      // 27
+      else if(op == inputCode){
+
+        int temp;
+        System.out.print("? ");
+
+        temp = keys.nextInt();
+        mem[bp + 2 + a] = temp;
+      }
 
 
       // put your work right here!
