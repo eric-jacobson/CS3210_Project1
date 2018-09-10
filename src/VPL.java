@@ -172,6 +172,7 @@ public class VPL
       // instructions 14 - 20: Sara
       // instructions 21 - 27: Ze
       // instructions 28 - 34: Aimee
+      // put your work right here!
 
       if ( op == noopCode ) {}
 
@@ -207,52 +208,14 @@ public class VPL
       else if ( op == remCode ){
         mem[bp + 2 + a] = b % c;
       }
-      //14
-      else if ( op == equalCode) {
-        if (b == c) {
+
+      // 20
+      else if(op == notCode){
+        if( b == 0){
           mem[bp + 2 + a] = 1;
-        } else {
+        }else {
           mem[bp + 2 + a] = 0;
         }
-      }
-      //15
-      else if ( op == notEqualCode) {
-        if (b != c) {
-          mem[bp + 2 + a] = 1;
-        } else {
-          mem[bp + 2 + a] = 0;
-        }
-      }
-      //16
-      else if ( op == lessCode) {
-        if (b < c) {
-          mem[bp + 2 + a] = 1;
-        } else {
-          mem[bp + 2 + a] = 0;
-        }
-      }
-      //17
-      else if ( op == lessEqualCode) {
-        if (b <= c) {
-          mem[bp + 2 + a] = 1;
-        } else {
-          mem[bp + 2 + a] = 0;
-        }
-      }
-      //18
-      else if ( op == andCode) {
-        mem[bp + 2 + a] = b & c;
-      }
-      //19
-      else if ( op == orCode) {
-        mem[bp + 2 + a] = b | c;
-      }
-      //20
-      else if ( op == notCode) {
-        if(b == 0)
-          mem[bp + 2 + a] = 1;
-        else
-          mem[bp + 2 + a] = 0;
       }
       // 21
       else if (op == oppCode){
@@ -288,9 +251,39 @@ public class VPL
         temp = keys.nextInt();
         mem[bp + 2 + a] = temp;
       }
+      // 28
+      else if(op == outputCode){
+        System.out.println(mem[a]);
+      }
+      // 29
+      else if(op == newlineCode){
+        System.out.println();
+      }
+      // 30
+      else if(op == symbolCode){
+        if(a > 32 && a < 126){
+          System.out.println(a);
+        }
+      }
+      // 31
+      else if(op == newCode){
+        hp -= b;
+        mem[bp + 2 + a] = hp;
+      }
+      // 32
+      else if(op  == allocGlobalCode){
+        bp = gp;
+        sp = bp + 2;
+      }
+      // 33
+      else if(op == toGlobalCode){
+        mem[gp + a] = mem[bp + 2 + b];
+      }
+      // 34
+      else if(op == fromGlobalCode){
+        mem[bp + 2 + a] = mem[gp + b];
+      }
 
-
-      // put your work right here!
 
       else
       {
