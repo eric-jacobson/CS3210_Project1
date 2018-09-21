@@ -1,11 +1,11 @@
-﻿# Group Members:
+﻿## Group Members:
  Eric Jacobson  
  Sarah Ferguson  
  Sara Shrestha  
  Ze Liu  
  Aimee Tollett  
  
- ### Project 1
+ ## Project 1
  VPL interpreter in Java  
  
  Compile VPL.java and IntPair.java  
