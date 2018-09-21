@@ -8,7 +8,7 @@ public class VPL
 
   static int max;
   static int[] mem;
-  static int ip, bp, sp, rv, hp, numPassed, gp;
+  static int ip, bp, sp, rv, hp, numPassed, gp, ret_bp, ret_ip;
   static int step;
 
   public static void main(String[] args) throws Exception {
@@ -86,8 +86,8 @@ public class VPL
       }// have a line
     }// loop to load code
     
-    //System.out.println("after first scan:");
-    //showMem( 0, k-1 );
+    System.out.println("after first scan:");
+    showMem( 0, k-1 );
 
     // fill in all the holes:
     int index;
@@ -128,8 +128,9 @@ public class VPL
     // *****************************************************************
 
     do {
-
-    // show details of current step
+      
+      
+      // show details of current step
       System.out.println("--------------------------");
       System.out.println("Step of execution with IP = " + ip + " opcode: " +
           mem[ip] + 
@@ -139,9 +140,9 @@ public class VPL
       System.out.println("--------------------------");
       System.out.println( " memory from " + (codeEnd+1) + " up: " );
       showMem( codeEnd+1, sp+3 );
-      System.out.println("hit <enter> to go on" );
-      keys.nextLine();
-
+      //System.out.println("hit <enter> to go on" );
+      //keys.nextLine();
+      
 
       oldIp = ip;
 
@@ -175,13 +176,17 @@ public class VPL
       // put your work right here!
 
       if ( op == noopCode ) {}
-      //1
-      else if (op == labelCode) {
-
-      }
       //2
-      else if (op == callCode) {
 
+      else if(op == labelCode){}
+
+      else if (op == callCode) {
+        mem[sp + 1] = bp;
+        bp = sp;
+        sp += (numPassed + 2);
+        mem[bp] = ip;
+        ip = a;
+        numPassed = 0;       
       }
       //3
       else if (op == passCode) {
@@ -295,8 +300,8 @@ public class VPL
       }
       // 25
       else if(op == putCode){
-
-        mem[hp + 1 + (mem[bp + 2 + a] + mem[bp + 2 + b])] = mem[bp + 2 +c];
+        mem[mem[bp + 2 + a] + mem[bp + 2 + b]] = mem[bp + 2 +c];
+        //mem[hp + 1 + (mem[bp + 2 + a] + mem[bp + 2 + b])] = mem[bp + 2 +c];
       }
       // 26
       else if(op == haltCode){
