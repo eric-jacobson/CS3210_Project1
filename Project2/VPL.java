@@ -176,50 +176,36 @@ public class VPL
       // put your work right here!
 
       //0
-      if ( op == noopCode ) {
-        ip++;
-      }
+      if ( op == noopCode ) { }
       //1
-      else if(op == labelCode){
-        ip++;
-      }
+      else if(op == labelCode){ }
       //2
       else if (op == callCode) {
-       n = ip;
-       ip += 2;
-       mem[sp] = ip;
-       mem[sp+1] = bp;
-       
-       ip = mem[n+1];
+       ret_ip = ip + 1;
+       ret_bp = bp;
        bp = sp;
        sp += 2 + numPassed;
        numPassed = 0;
+       ip = mem[a];
       }
       //3
       else if (op == passCode) {
-        a = mem[ip + 1];
-        mem[sp + 2 + numPassed] = mem[bp + 2 + a];
-        ip += 2;
+        mem[sp + 2 + numPassed] = a;
         numPassed += 1;
       }
       //4
       else if (op == allocCode) {
-        n = mem[ip + 1];
+        sp += a;
       }
       //5
       else if (op == returnCode) {
-        a = mem[ip + 1];
+        bp = mem[bp+1];
+        ip = mem[bp];
         rv = mem[bp + 2 + a];
-
-        sp = bp;
-        ip = mem[sp];
-        bp = mem[sp+1];
       }
       //6
       else if (op == getRetvalCode) {
-        a = mem[ip + 1];
         mem[bp + 2 + a] = rv;
-        ip += 2;
       }
       // 7
       else if( op == jumpCode ){
