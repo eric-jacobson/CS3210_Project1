@@ -239,7 +239,7 @@ public class VPL
       }
       //14
       else if ( op == equalCode) {
-          if (b == c) {
+          if (mem[bp + 2 + b] == mem[bp + 2 + c]) {
               mem[bp + 2 + a] = 1;
           } else {
               mem[bp + 2 + a] = 0;
@@ -247,7 +247,7 @@ public class VPL
       }
       //15
       else if ( op == notEqualCode) {
-          if (b != c) {
+          if (mem[bp + 2 + b] != mem[bp + 2 + c]) {
               mem[bp + 2 + a] = 1;
           } else {
               mem[bp + 2 + a] = 0;
@@ -255,7 +255,7 @@ public class VPL
       }
       //16
       else if ( op == lessCode) {
-          if (b < c) {
+          if (mem[bp + 2 + b] < mem[bp + 2 + c]) {
               mem[bp + 2 + a] = 1;
           } else {
               mem[bp + 2 + a] = 0;
@@ -263,7 +263,7 @@ public class VPL
       }
       //17
       else if ( op == lessEqualCode) {
-          if (b <= c) {
+          if (mem[bp + 2 + b] <= mem[bp + 2 + c]) {
               mem[bp + 2 + a] = 1;
           } else {
               mem[bp + 2 + a] = 0;
@@ -271,15 +271,21 @@ public class VPL
       }
       //18
       else if ( op == andCode) {
-          mem[bp + 2 + a] = b & c;
+        if (mem[bp + 2 + b] >0 && mem[bp + 2 + c] > 0)
+            mem[bp + 2 + a] = 1;
+        else
+            mem[bp + 2 + a] = 0;
       }
       //19
       else if ( op == orCode) {
-          mem[bp + 2 + a] = b | c;
+        if (mem[bp + 2 + b] > 0 || mem[bp + 2 + c] > 0)
+          mem[bp + 2 + a] = 1;
+        else
+          mem[bp + 2 + a] = 0;
       }
       //20
       else if ( op == notCode) {
-          if(b == 0)
+          if(mem[bp + 2 + b] == 0)
               mem[bp + 2 + a] = 1;
           else
               mem[bp + 2 + a] = 0;
@@ -301,7 +307,7 @@ public class VPL
         mem[bp + 2 + a] = mem[hp + 1 + (mem[ bp + 2 + b] + mem[bp + 2 + c])];
       }
       // 25
-      else if(op == putCode){
+      else if(op == putCode){        
         mem[mem[bp + 2 + a] + mem[bp + 2 + b]] = mem[bp + 2 +c];
         //mem[hp + 1 + (mem[bp + 2 + a] + mem[bp + 2 + b])] = mem[bp + 2 +c];
       }
