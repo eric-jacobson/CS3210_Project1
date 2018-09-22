@@ -86,8 +86,8 @@ public class VPL
       }// have a line
     }// loop to load code
     
-    System.out.println("after first scan:");
-    showMem( 0, k-1 );
+    //System.out.println("after first scan:");
+    //showMem( 0, k-1 );
 
     // fill in all the holes:
     int index;
@@ -101,8 +101,8 @@ public class VPL
       mem[ holes.get(m).first ] = index;
     }
 
-    System.out.println("after replacing labels:");
-    showMem( 0, k-1 );
+    //System.out.println("after replacing labels:");
+    //showMem( 0, k-1 );
 
     // initialize registers:
     bp = k;  sp = k+2;  ip = 0;  rv = -1;  hp = max;
@@ -131,6 +131,7 @@ public class VPL
       
       
       // show details of current step
+      /*
       System.out.println("--------------------------");
       System.out.println("Step of execution with IP = " + ip + " opcode: " +
           mem[ip] + 
@@ -140,8 +141,9 @@ public class VPL
       System.out.println("--------------------------");
       System.out.println( " memory from " + (codeEnd+1) + " up: " );
       showMem( codeEnd+1, sp+3 );
-      //System.out.println("hit <enter> to go on" );
-      //keys.nextLine();
+      System.out.println("hit <enter> to go on" );
+      keys.nextLine();
+      */
       
 
       oldIp = ip;
