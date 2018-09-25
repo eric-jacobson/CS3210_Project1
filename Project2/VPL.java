@@ -8,7 +8,7 @@ public class VPL
 
   static int max;
   static int[] mem;
-  static int ip, bp, sp, rv, hp, numPassed, gp, ret_bp, ret_ip;
+  static int ip, bp, sp, rv, hp, numPassed, gp;
   static int step;
 
   public static void main(String[] args) throws Exception {
@@ -105,7 +105,7 @@ public class VPL
     //showMem( 0, k-1 );
 
     // initialize registers:
-    bp = k;  sp = k+2;  ip = 0;  rv = -1;  hp = max;
+    bp = k;  sp = k + 2;  ip = 0;  rv = -1;  hp = max;
     numPassed = 0;
     
     int codeEnd = bp-1;
@@ -177,200 +177,193 @@ public class VPL
       // instructions 28 - 34: Aimee
       // put your work right here!
 
-      //0
-      if ( op == noopCode ) { }
-      //1
-      else if(op == labelCode){ }
-      //2
-      else if (op == callCode) {
-       ret_ip = ip + 1;
-       ret_bp = bp;
-       bp = sp;
-       sp += 2 + numPassed;
-       numPassed = 0;
-       ip = mem[a];
+      // 2
+      if(op == callCode){
+        mem[sp + 1] = bp;
+        bp = sp;
+        sp += (numPassed + 2);
+        mem[bp] = ip;
+        ip = a;
+        numPassed = 0;               
       }
-      //3
-      else if (op == passCode) {
-        mem[sp + 2 + numPassed] = a;
-        numPassed += 1;
+      // 3
+      else if(op == passCode){
+          mem[sp + 2 + numPassed++] = mem[bp + 2 + a];
       }
-      //4
-      else if (op == allocCode) {
-        sp += a;
+      // 4
+      else if(op == allocCode){
+          sp += a;
       }
-      //5
-      else if (op == returnCode) {
-        bp = mem[bp+1];
-        ip = mem[bp];
-        rv = mem[bp + 2 + a];
+      // 5
+      else if(op == returnCode){
+          rv = mem[bp + 2 + a];
+          ip = mem[bp];
+          sp = bp;
+          bp = mem[bp+1];
       }
-      //6
-      else if (op == getRetvalCode) {
-        mem[bp + 2 + a] = rv;
+      // 6
+      else if(op == getRetvalCode){
+          mem[bp + 2 + a] = rv;
       }
       // 7
-      else if( op == jumpCode ){
-        ip = mem[a];
+      else if(op == jumpCode){
+          ip = a;
       }
       // 8
-      else if( op == condJumpCode ){
-        if(b > 0){
-          ip = mem[a];
-        }
+      else if(op == condJumpCode){
+          if( mem[bp + 2 + b] > 0 ){
+              ip = a;
+          }
       }
       // 9
-      else if ( op == addCode ){
-        mem[bp + 2 + a] = b + c;
+      else if(op == addCode){
+          mem[bp + 2 + a] = mem[bp + 2 + b] + mem[bp + 2 + c];
       }
       // 10
-      else if ( op == subCode ){
-        mem[bp + 2 + a] = b - c;
+      else if(op == subCode){
+          mem[bp + 2 + a] = mem[bp + 2 + b] - mem[bp + 2 + c];
       }
       // 11
-      else if ( op == multCode ){
-        mem[bp + 2 + a] = b * c;
+      else if(op == multCode){
+          mem[bp + 2 + a] = mem[bp + 2 + b] * mem[bp + 2 + c];
       }
       // 12
-      else if ( op == divCode ){
-        mem[bp + 2 + a] = b / c;
+      else if(op == divCode){
+          mem[bp + 2 + a] = mem[bp + 2 + b] / mem[bp + 2 + c];
       }
       // 13
-      else if ( op == remCode ){
-        mem[bp + 2 + a] = b % c;
+      else if(op == remCode){
+          mem[bp + 2 + a] = mem[bp + 2 + b] % mem[bp + 2 + c];
       }
-      //14
-      else if ( op == equalCode) {
-          if (mem[bp + 2 + b] == mem[bp + 2 + c]) {
+      // 14
+      else if(op == equalCode){
+          if(mem[bp + 2 + b] == mem[bp + 2 + c]){
               mem[bp + 2 + a] = 1;
-          } else {
-              mem[bp + 2 + a] = 0;
-          }
+          }else mem[bp + 2 + a] = 0;
       }
-      //15
-      else if ( op == notEqualCode) {
-          if (mem[bp + 2 + b] != mem[bp + 2 + c]) {
+      // 15
+      else if(op == notEqualCode){
+          if(mem[bp + 2 + b] != mem[bp + 2 + c]){
               mem[bp + 2 + a] = 1;
-          } else {
-              mem[bp + 2 + a] = 0;
-          }
-      }
-      //16
-      else if ( op == lessCode) {
-          if (mem[bp + 2 + b] < mem[bp + 2 + c]) {
-              mem[bp + 2 + a] = 1;
-          } else {
-              mem[bp + 2 + a] = 0;
-          }
-      }
-      //17
-      else if ( op == lessEqualCode) {
-          if (mem[bp + 2 + b] <= mem[bp + 2 + c]) {
-              mem[bp + 2 + a] = 1;
-          } else {
-              mem[bp + 2 + a] = 0;
-          }
-      }
-      //18
-      else if ( op == andCode) {
-        if (mem[bp + 2 + b] >0 && mem[bp + 2 + c] > 0)
-            mem[bp + 2 + a] = 1;
-        else
+          }else {
             mem[bp + 2 + a] = 0;
+          }
       }
-      //19
-      else if ( op == orCode) {
-        if (mem[bp + 2 + b] > 0 || mem[bp + 2 + c] > 0)
-          mem[bp + 2 + a] = 1;
-        else
-          mem[bp + 2 + a] = 0;
-      }
-      //20
-      else if ( op == notCode) {
-          if(mem[bp + 2 + b] == 0)
+      // 16
+      else if(op == lessCode){
+          if(mem[bp + 2 + b] < mem[bp + 2 + c]){
               mem[bp + 2 + a] = 1;
-          else
-              mem[bp + 2 + a] = 0;
+          }else{
+            mem[bp + 2 + a] = 0;
+          } 
+      }
+      // 17
+      else if(op == lessEqualCode){
+          if (mem[bp + 2 + b] <= mem[bp + 2 + c]){
+              mem[bp + 2 + a] = 1;
+          }else {
+            mem[bp + 2 + a] = 0;
+          }
+      }
+      // 18
+      else if(op == andCode){
+          if(mem[bp + 2 + b] > 0 && mem[bp + 2 + c] > 0){
+              mem[bp + 2 + a] = 1;
+          }else {
+            mem[bp + 2 + a] = 0;
+          }
+      }
+      // 19
+      else if(op == orCode){
+          if(b > 0 || c > 0){
+              mem[bp + 2 + a] = 1;
+          }else mem[bp + 2 + a] = 0;
+      }
+      // 20
+      else if(op == notCode){
+          if( b == 0){
+              mem[bp + 2 + a] = 1;
+          }else {
+            mem[bp + 2 + a] = 0;
+          }
       }
       // 21
-      else if (op == oppCode){
-        mem[ bp+2 + a ] = - mem[ bp+2 + b ];
+      else if ( op == oppCode ) {
+          mem[ bp + 2 + a ] = - mem[ bp + 2 + b ];
       }
       // 22
       else if(op == litCode){
-        mem[bp + 2 + a] = b;
+          mem[bp + 2 + a] = b;
       }
       // 23
       else if(op == copyCode){
-        mem[bp + 2 + a] = mem[ bp + 2 + b];
+          mem[bp + 2 + a] = mem[ bp + 2 + b];
       }
       // 24
       else if(op == getCode){
-        mem[bp + 2 + a] = mem[hp + 1 + (mem[ bp + 2 + b] + mem[bp + 2 + c])];
+          mem[bp + 2 + a] = mem[mem[ bp + 2 + b] + mem[bp + 2 + c]];
       }
       // 25
-      else if(op == putCode){        
-        mem[mem[bp + 2 + a] + mem[bp + 2 + b]] = mem[bp + 2 +c];
-        //mem[hp + 1 + (mem[bp + 2 + a] + mem[bp + 2 + b])] = mem[bp + 2 +c];
+      else if(op == putCode){
+
+          mem[mem[bp + 2 + a] + mem[bp + 2 + b]] = mem[bp + 2 +c];
       }
       // 26
       else if(op == haltCode){
-        done = true;
+          done = true;
       }
       // 27
       else if(op == inputCode){
 
-        int temp;
-        System.out.print("? ");
+          int temp;
+          System.out.print("? ");
 
-        temp = keys.nextInt();
-        mem[bp + 2 + a] = temp;
+          temp = keys.nextInt();
+          mem[bp + 2 + a] = temp;
       }
       // 28
       else if(op == outputCode){
-        System.out.println(mem[a]);
+          System.out.print(mem[ bp + 2 + a ]);
       }
       // 29
       else if(op == newlineCode){
-        System.out.println();
+          System.out.println();
       }
       // 30
       else if(op == symbolCode){
-        if(a > 32 && a < 126){
-          System.out.println(a);
-        }
+          int out = mem[ bp + 2 + a];
+          if(out >= 32 && out <= 126){
+              System.out.print((char)out);
+          }
       }
       // 31
       else if(op == newCode){
-        hp -= b;
-        mem[bp + 2 + a] = hp;
+          hp -= mem[bp + 2 + b];
+          mem[bp + 2 + a] = hp;
       }
       // 32
       else if(op  == allocGlobalCode){
-        bp = gp;
-        sp = bp + 2;
+          bp = gp;
+          sp = bp + 2; 
       }
       // 33
       else if(op == toGlobalCode){
-        mem[gp + a] = mem[bp + 2 + b];
+          mem[gp + a] = mem[bp + 2 + b];
       }
       // 34
       else if(op == fromGlobalCode){
-        mem[bp + 2 + a] = mem[gp + b];
+          mem[bp + 2 + a] = mem[gp + b];
       }
-
 
       else
       {
         System.out.println("Fatal error: unknown opcode [" + op + "]" );
         System.exit(1);
       }
-       
+        
       step++;
 
-    }while( !done );
-    
-
+      }while( !done );
   }// main
 
   // use symbolic names for all opcodes:
