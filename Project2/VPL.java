@@ -275,13 +275,13 @@ public class VPL
       }
       // 19
       else if(op == orCode){
-          if(b > 0 || c > 0){
+          if(mem[bp + 2 + b] > 0 || mem[bp + 2 + c] > 0){
               mem[bp + 2 + a] = 1;
           }else mem[bp + 2 + a] = 0;
       }
       // 20
       else if(op == notCode){
-          if( b == 0){
+          if( mem[bp + 2 + b] == 0){
               mem[bp + 2 + a] = 1;
           }else {
             mem[bp + 2 + a] = 0;
@@ -323,7 +323,7 @@ public class VPL
       }
       // 28
       else if(op == outputCode){
-          System.out.print(mem[ bp + 2 + a ]);
+          System.out.print( mem[bp + 2 + a] );
       }
       // 29
       else if(op == newlineCode){
