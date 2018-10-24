@@ -155,8 +155,11 @@ public class Lexer {
  
          if ( state == 2 ) {
             // see if data matches any special words
-            if ( data.equals("input")||data.equals("nl") ) {
+            if ( data.equals("input") ) {
                return new Token( "bif0", data );
+            }
+            else if ( data.equals("nl") ) {
+              return new Token( "bif1", "" );
             }
             else if ( data.equals("sqrt") || data.equals("cos") || 
                       data.equals("sin") || data.equals("atan") ||
