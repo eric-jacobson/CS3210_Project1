@@ -217,15 +217,19 @@ System.out.println("has " + number + " children");
              return Math.sin( Math.toRadians( value ) );
           else if ( kind.equals("atan") )
              return Math.toDegrees( Math.atan( value ) );
-          else if ( kind.equals("not"))
-             return 0;
-             // Sara
-          else if ( kind.equals("round"))
-             return 0;
-             // Ze
-          else if (kind.equals("trunc"))
-             return 0;
-             // Ze
+          else if ( kind.equals("not")) {
+             if (value == 0)
+                return 1;
+             else
+                return 0;
+          }
+          else if ( kind.equals("round")) {
+             return (int) Math.round(value);
+          }
+          else if (kind.equals("trunc")) {
+             double scale = Math.pow(10, 0);
+             return Math.round(value * scale) / scale;
+          }
           else {
              error("unknown function name [" + kind + "]");
              return 0;
@@ -245,39 +249,58 @@ System.out.println("has " + number + " children");
        }
 
        else if ( kind.equals("lt")) {
-          return 0;
-          //Sarah
+          double value1 = first.evaluate();
+          double value2 = second.evaluate();
+          if (value1 < value2)
+            return 1;
+          else
+            return 0;
        }
 
        else if ( kind.equals("le")) {
-         return 0;
-         //Sarah
+         double value1 = first.evaluate();
+         double value2 = second.evaluate();
+         if (value <= value2)
+            return 1;
+         else
+            return 0;
        }
 
        else if ( kind.equals("eq")) {
-         return 0;
-         //Sarah
+        double value1 = first.evaluate();
+        double value2 = second.evaluate();
+        if (value == value2)
+           return 1;
+        else
+           return 0;
        }
 
        else if ( kind.equals("ne")) {
-         return 0;
-         //Sarah
+        double value1 = first.evaluate();
+        double value2 = second.evaluate();
+        if (value != value2)
+           return 1;
+        else
+           return 0;
        }
 
        else if ( kind.equals("or")) {
-         return 0;
-         //Sara
+        double value1 = first.evaluate();
+        double value2 = second.evaluate();
+        if (value !=0 || value2 != 0)
+           return 1;
+        else
+           return 0;
        }
 
        else if ( kind.equals("and")) {
-         return 0;
-         //Sara
+        double value1 = first.evaluate();
+        double value2 = second.evaluate();
+        if (value  != 0 && value2 !=0)
+           return 1;
+        else
+           return 0;
       }
-
-       else if ( kind.equals("not")) {
-         return 0;
-         //Sara
-       }
 
        else {
           error("Unknown node kind [" + kind + "]");
