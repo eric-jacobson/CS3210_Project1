@@ -146,19 +146,6 @@ System.out.println("has " + number + " children");
          }
       }
 
-      else if ( kind.equals("prtstr") ) {
-         System.out.print( info );
-      }
-      
-      else if ( kind.equals("prtexp") ) {
-         double value = first.evaluate();
-         System.out.print( value );
-      }
-      
-      else if ( kind.equals("nl") ) {
-         System.out.print( "\n" );
-      }
-      
       else if ( kind.equals("sto") ) {
          double value = first.evaluate();
          table.store( info, value );
@@ -198,14 +185,17 @@ System.out.println("has " + number + " children");
          else
             return value1 / value2;
        }
- 
-       else if ( kind.equals("input") ) {
-          return keys.nextDouble();          
+       //bif(0):
+       else if ( kind.equals("input") || kind.equals("nl")) {
+         if ( kind.equals("input") )
+          return keys.nextDouble();       
+         else
+          System.out.print("\n");   
        }
-       
+       //bif(1):
        else if ( kind.equals("sqrt") || kind.equals("cos") ||
                  kind.equals("sin") || kind.equals("atan")  || kind.equals("not") ||
-                 kind.equals("round") || kind.equals("trunc")  
+                 kind.equals("round") || kind.equals("trunc")  || kind.equals("print")
                ) {
           double value = first.evaluate();
 
@@ -226,17 +216,19 @@ System.out.println("has " + number + " children");
           else if ( kind.equals("round")) {
              return (int) Math.round(value);
           }
-          else if (kind.equals("trunc")) {
+          else if ( kind.equals("trunc")) {
              double scale = Math.pow(10, 0);
              return Math.round(value * scale) / scale;
           }
+          else if ( kind.equals("print")) 
+             System.out.print(value);
           else {
              error("unknown function name [" + kind + "]");
              return 0;
           }
             
        }
-       
+       //bif(2):
        else if ( kind.equals("pow") ) {
           double value1 = first.evaluate();
           double value2 = second.evaluate();
