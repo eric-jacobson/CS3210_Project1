@@ -68,8 +68,8 @@ public class Lexer {
                  state = 6;
                }
                else if ( sym == '+' || sym == '-' || sym == '*' ||
-                         sym == '/' || sym == '(' || sym == ')' ||
-                         sym == ',' || sym == '='
+                         sym == '(' || sym == ')' ||sym == ',' || 
+                         sym == '='
                        ) {
                   data += (char) sym;
                   state = 8;
@@ -78,6 +78,18 @@ public class Lexer {
                else if ( sym == -1 ) {// end of file
                   state = 9;
                   done = true;
+               }
+               else if (sym == '/'){
+                 int sym1 = getNextSymbol();
+                 if(sym1 =='*'){
+                   state = 10;
+                 }
+                 else{
+                   putBackSymbol(sym1);
+                   data += (char) sym;
+                  state = 8;
+                  done = true;
+                 }
                }
                else {
                  error("Error in lexical analysis phase with symbol "
@@ -145,6 +157,24 @@ public class Lexer {
                }
             }
 
+            else if (state ==10){
+              if (sym=='*'){
+                int sym1 = getNextSymbol();
+                 if(sym1 =='/'){
+                   state = 11;
+                   done = true;
+                 }
+                 else {
+                  putBackSymbol(sym1);
+                  state = 10;
+                 }
+              }
+              else{
+                data += (char) sym;
+                state = 10;
+              }
+            }
+
             // note: states 7, 8, and 9 are accepting states with
             //       no arcs out of them, so they are handled
             //       in the arc going into them
@@ -190,6 +220,9 @@ public class Lexer {
          }
          else if ( state == 9 ) {
             return new Token( "eof", data );
+         }
+         else if (state == 11){
+           return new Token("comment", data);
          }
 
          else {// Lexer error
