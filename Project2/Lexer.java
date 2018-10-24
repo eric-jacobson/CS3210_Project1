@@ -155,13 +155,13 @@ public class Lexer {
  
          if ( state == 2 ) {
             // see if data matches any special words
-            if ( data.equals("input") ) {
+            if ( data.equals("input")||data.equals("nl") ) {
                return new Token( "bif0", data );
             }
             else if ( data.equals("sqrt") || data.equals("cos") || 
                       data.equals("sin") || data.equals("atan") ||
                       data.equals("not") || data.equals("round")||
-                      data.equals("trunc")
+                      data.equals("trunc")||data.equals("print")
                     ) {
                return new Token( "bif1", data );
             }
