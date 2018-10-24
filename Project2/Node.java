@@ -204,7 +204,8 @@ System.out.println("has " + number + " children");
        }
        
        else if ( kind.equals("sqrt") || kind.equals("cos") ||
-                 kind.equals("sin") || kind.equals("atan")    
+                 kind.equals("sin") || kind.equals("atan")  || kind.equals("not") ||
+                 kind.equals("round") || kind.equals("trunc")  
                ) {
           double value = first.evaluate();
 
@@ -216,6 +217,15 @@ System.out.println("has " + number + " children");
              return Math.sin( Math.toRadians( value ) );
           else if ( kind.equals("atan") )
              return Math.toDegrees( Math.atan( value ) );
+          else if ( kind.equals("not"))
+             return 0;
+             // Sara
+          else if ( kind.equals("round"))
+             return 0;
+             // Ze
+          else if (kind.equals("trunc"))
+             return 0;
+             // Ze
           else {
              error("unknown function name [" + kind + "]");
              return 0;
@@ -232,6 +242,41 @@ System.out.println("has " + number + " children");
        else if ( kind.equals("opp") ) {
           double value = first.evaluate();
           return -value;
+       }
+
+       else if ( kind.equals("lt")) {
+          return 0;
+          //Sarah
+       }
+
+       else if ( kind.equals("le")) {
+         return 0;
+         //Sarah
+       }
+
+       else if ( kind.equals("eq")) {
+         return 0;
+         //Sarah
+       }
+
+       else if ( kind.equals("ne")) {
+         return 0;
+         //Sarah
+       }
+
+       else if ( kind.equals("or")) {
+         return 0;
+         //Sara
+       }
+
+       else if ( kind.equals("and")) {
+         return 0;
+         //Sara
+      }
+
+       else if ( kind.equals("not")) {
+         return 0;
+         //Sara
        }
 
        else {
