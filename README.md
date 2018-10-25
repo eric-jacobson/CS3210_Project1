@@ -1,6 +1,5 @@
 ﻿## CS3210 Principles of Programming Languages
- 
- # Group Members:
+ ### Group Members:  
  Eric Jacobson  
  Sarah Ferguson  
  Sara Shrestha  
