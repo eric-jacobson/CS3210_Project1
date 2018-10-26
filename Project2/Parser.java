@@ -17,7 +17,105 @@ public class Parser {
    }
 
    public Node parseProgram() {
-      return parseStatements();
+      System.out.println("-----> parsing <program>:");
+
+      Node first = parseFuncCall();
+
+      // Look ahead to see if a funcDef follows the funcCall
+      Token token = lex.getNextToken();
+      
+      if(token.isKind("eof")){
+        return new Node("prgrm", first, null, null);  // TODO: Add prgrm to Node kinds
+      } else {
+        lex.putBackToken(token);
+        Node second = parseFuncDefs();
+        return new Node("prgrm", first, second, null);
+      }
+   }
+
+   private Node parseFuncCall(){
+      System.out.println("-----> parsing <funcCall>:");
+
+      Node first = parseVar();
+
+      Token token = lex.getNextToken();
+
+      if(token.matches("single", "(")){
+
+        token = lex.getNextToken();
+
+        if(token.matches("single", ")")){
+          return new Node("fCall", first, null, null);
+        } else {
+          lex.putBackToken(token);
+          Node second = parseArgs();
+          token = lex.getNextToken();
+          errorCheck(token, "single", ")");
+          return new Node("fCall", first, second, null);
+        }
+      } else {
+        errorCheck(token, "single", "(");
+      }
+   }
+
+   private Node parseFuncDefs(){
+      System.out.println("-----> parsing <funcDefs>:");
+
+      Node first = parseFuncDef();
+
+      // Look ahead to see if there are more funcDefs
+      Token token = lex.getNextToken();
+
+      if(token.isKind("eof")){
+        return new Node("fdefs", first, null, null);  // TODO: Add fdefs to Node kinds
+      } else {
+          lex.putBackToken(token);
+          Node second = parseFuncDef();
+          return new Node("fdefs", first, second, null);
+      }
+
+   }
+
+   private Node parseFuncDef(){
+
+   }
+
+   private Node parseParams(){
+      System.out.println("-----> parsing <params>:");
+
+      Node first = parseVar();
+
+      // Look ahead to see if there are more params
+      Token token = lex.getNextToken();
+
+      if(token.isKind("eof")){
+        return new Node("params", first, null, null);
+      } else {
+        errorCheck(token, "single", ",");
+        Node second = parseParams();
+        return new Node("params", first, second, null);
+      }
+   }
+
+   private Node parseArgs(){
+      System.out.println("-----> parsing <args>:");
+
+      Node first = parseExpr();
+
+      // Look ahead to see if there are more args
+      Token token = lex.getNextToken();
+
+      if(token.isKind("eof")){
+        return new Node("args", first, null, null);
+      } else {
+        errorCheck(token, "single", ",");
+        Node second = parseArgs();
+        return new Node("args", first, second, null);
+      }
+   }
+
+   private Node parseVar(){     // TODO: ??????????????????????????
+     
    }
 
    private Node parseStatements() {
@@ -38,7 +136,7 @@ public class Parser {
       }
    }// <statements>
 
-   private Node parseStatement() {
+   private Node parseStatement() {                        // TODO: new line and print are going to be built in functions
       System.out.println("-----> parsing <statement>:");
  
       Token token = lex.getNextToken();
