@@ -12,4 +12,5 @@
  To run in terminal: java VPL fileName.txt memorySize  
  memorySize is an integer value  
  
- ## Project 2
+ ## Project 2  
+ Compiler for Corgi language
