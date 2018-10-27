@@ -137,7 +137,24 @@ System.out.println("has " + number + " children");
   // (for nodes that don't return a value)
    public void execute() {
 
-      if ( kind.equals("stmts") ) {
+      if(kind.equals("prgrm")) {
+          if(first != null) {
+            first.evaluate();
+          } else {
+            error("Corgi programs must begin with a function call");
+          }
+      } else if(kind.equals("fdef")) {
+        if(first != null) {
+          first.execute();
+        }
+        if(second != null) {
+          second.execute();
+        }
+      } else if(kind.equals("params")) {
+          
+      }
+
+      else if ( kind.equals("stmts") ) {
          if ( first != null ) {
             first.execute();
             if ( second != null ) {
@@ -252,7 +269,7 @@ System.out.println("has " + number + " children");
        else if ( kind.equals("le")) {
          double value1 = first.evaluate();
          double value2 = second.evaluate();
-         if (value <= value2)
+         if (value1 <= value2)
             return 1;
          else
             return 0;
@@ -261,7 +278,7 @@ System.out.println("has " + number + " children");
        else if ( kind.equals("eq")) {
         double value1 = first.evaluate();
         double value2 = second.evaluate();
-        if (value == value2)
+        if (value1 == value2)
            return 1;
         else
            return 0;
@@ -270,7 +287,7 @@ System.out.println("has " + number + " children");
        else if ( kind.equals("ne")) {
         double value1 = first.evaluate();
         double value2 = second.evaluate();
-        if (value != value2)
+        if (value1 != value2)
            return 1;
         else
            return 0;
@@ -279,7 +296,7 @@ System.out.println("has " + number + " children");
        else if ( kind.equals("or")) {
         double value1 = first.evaluate();
         double value2 = second.evaluate();
-        if (value !=0 || value2 != 0)
+        if (value1 !=0 || value2 != 0)
            return 1;
         else
            return 0;
@@ -288,7 +305,7 @@ System.out.println("has " + number + " children");
        else if ( kind.equals("and")) {
         double value1 = first.evaluate();
         double value2 = second.evaluate();
-        if (value  != 0 && value2 !=0)
+        if (value1  != 0 && value2 !=0)
            return 1;
         else
            return 0;
@@ -298,7 +315,7 @@ System.out.println("has " + number + " children");
           error("Unknown node kind [" + kind + "]");
           return 0;
        }
-       
+       return 0;
    }// evaluate
 
 }// Node
