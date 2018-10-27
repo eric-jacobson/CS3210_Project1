@@ -178,11 +178,11 @@ public class Parser {
 
     } else if ( token.isKind("var") && token.getDetails() != "if" ) {
 
-          String varName = token.getDetails();
+          String var = token.getDetails();
           token = lex.getNextToken();
           errorCheck( token, "single", "=" );
           Node first = parseExpr();
-          return new Node( "sto", varName, first, null, null );
+          return new Node( "sto", var, first, null, null );
 
     } else if ( token.isKind("var") && token.getDetails() == "if" ) {
 
