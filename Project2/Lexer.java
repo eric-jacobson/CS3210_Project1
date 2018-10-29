@@ -75,21 +75,15 @@ public class Lexer {
                   state = 8;
                   done = true;
                }
+               else if ( sym == '/'){
+                  state = 10;
+               }
+               else if ( sym == '"'){
+                  state = 14;
+               }
                else if ( sym == -1 ) {// end of file
                   state = 9;
                   done = true;
-               }
-               else if (sym == '/'){
-                 int sym1 = getNextSymbol();
-                 if(sym1 =='*'){
-                   state = 10;
-                 }
-                 else{
-                   putBackSymbol(sym1);
-                   data += (char) sym;
-                  state = 8;
-                  done = true;
-                 }
                }
                else {
                  error("Error in lexical analysis phase with symbol "
@@ -157,23 +151,34 @@ public class Lexer {
                }
             }
 
-            else if (state ==10){
-              if (sym=='*'){
-                int sym1 = getNextSymbol();
-                 if(sym1 =='/'){
-                   state = 11;
-                   done = true;
-                 }
-                 else {
-                  putBackSymbol(sym1);
-                  state = 10;
-                 }
+            else if (state == 10) {
+              if ( sym == '*'){
+                state = 11;
+                data = "";
               }
-              else{
+              else {
                 data += (char) sym;
-                state = 10;
+                state = 8;
+                done = true;
               }
             }
+            else if ( state == 11 ){
+              if( sym == '*'){
+                state = 12;
+              }
+            }
+            else if ( state == 12 ){
+              if( sym == '/'){
+                state = 13;
+              }
+              else { state = 11; }
+            }
+
+            else if ( state == 13 ){
+              putBackSymbol(sym);
+              state = 1;
+            }
+
 
             // note: states 7, 8, and 9 are accepting states with
             //       no arcs out of them, so they are handled
@@ -185,7 +190,7 @@ public class Lexer {
  
          if ( state == 2 ) {
             // see if data matches any special words
-            if ( data.equals("input") ) {
+            if ( data.equals("input")) {
                return new Token( "bif0", data );
             }
             else if ( data.equals("nl") ) {
@@ -205,6 +210,12 @@ public class Lexer {
              ) {
                return new Token( "bif2", data );
             }
+            else if ( data.equals("print") ) {
+              return new Token( "print", "" );
+           }
+           else if ( data.equals("newline") ) {
+              return new Token( "newline", "" );
+           }
             else {// is just a variable
                return new Token( "var", data );
             }
@@ -221,10 +232,9 @@ public class Lexer {
          else if ( state == 9 ) {
             return new Token( "eof", data );
          }
-         else if (state == 11){
+         /*else if (state == 11){
            return new Token("comment", data);
-         }
-
+         }*/
          else {// Lexer error
            error("somehow Lexer FA halted in bad state " + state );
            return null;
