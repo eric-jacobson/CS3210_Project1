@@ -138,34 +138,38 @@ System.out.println("has " + number + " children");
    public void execute() {
 
       if(kind.equals("prgrm")) {
-          if(first != null) {
-            first.evaluate();
-          } else {
-            error("Corgi programs must begin with a function call");
-          }
-      } else if(kind.equals("fdef")) {
+        if(first != null) {
+          first.evaluate();
+        } else {
+          error("Corgi programs must begin with a function call");
+        }
+      } 
+
+      else if(kind.equals("fdef")) {
         if(first != null) {
           first.execute();
         }
         if(second != null) {
           second.execute();
         }
-      } else if(kind.equals("params")) {
-          
+      }
+      
+      else if(kind.equals("params")) {
+        
       }
 
       else if ( kind.equals("stmts") ) {
-         if ( first != null ) {
-            first.execute();
-            if ( second != null ) {
-               second.execute();
-            }
-         }
+        if ( first != null ) {
+          first.execute();
+          if ( second != null ) {
+              second.execute();
+          }
+        }
       }
 
       else if ( kind.equals("sto") ) {
-         double value = first.evaluate();
-         table.store( info, value );
+        double value = first.evaluate();
+        table.store( info, value );
       }
       
       else {

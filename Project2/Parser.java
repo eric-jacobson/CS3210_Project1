@@ -25,7 +25,7 @@ public class Parser {
       Token token = lex.getNextToken();
       
       if(token.isKind("eof")){
-        return new Node("prgrm", first, null, null);  // TODO: Add prgrm to Node kinds
+        return new Node("prgrm", first, null, null);
       } else {
         lex.putBackToken(token);
         Node second = parseFuncDefs();
@@ -67,7 +67,7 @@ public class Parser {
       Token token = lex.getNextToken();
 
       if(token.isKind("eof")){
-        return new Node("fdefs", first, null, null);  // TODO: Add fdefs to Node kinds
+        return new Node("fdefs", first, null, null);
       } else {
           lex.putBackToken(token);
           Node second = parseFuncDef();
