@@ -145,7 +145,9 @@ System.out.println("has " + number + " children");
         }
       } 
 
-      else if(kind.equals("fdef")) {
+      else if(kind.equals("fdef"))
+      //might not need this
+       {
         if(first != null) {
           first.execute();
         }
@@ -154,11 +156,15 @@ System.out.println("has " + number + " children");
         }
       }
       
-      else if(kind.equals("params")) {
-        
+      else if(kind.equals("params"))
+      //have to make a new memtable
+      //check to see if there's a match
+      {
+
       }
 
       else if ( kind.equals("stmts") ) {
+        //first can't be null
         if ( first != null ) {
           first.execute();
           if ( second != null ) {
@@ -214,6 +220,7 @@ System.out.println("has " + number + " children");
           System.out.print("\n");   
        }
        //bif(1):
+       //treat bif as a single thing, and then use info to determine the type of bif
        else if ( kind.equals("sqrt") || kind.equals("cos") ||
                  kind.equals("sin") || kind.equals("atan")  || kind.equals("not") ||
                  kind.equals("round") || kind.equals("trunc")  || kind.equals("print")
