@@ -13,4 +13,4 @@
  memorySize is an integer value  
  
  ## Project 2  
- Compiler for Corgi language
+ Compiler for Corgi, a simple calculator language
