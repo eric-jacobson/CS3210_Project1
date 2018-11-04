@@ -215,20 +215,22 @@ public class Parser {
             else{
                lex.putBackToken(token);
                Node third = parseStatements();
-               token = lex.getNextToken();
-               errorCheck( token, "var", "end");
+               //token = lex.getNextToken();
+               //errorCheck( token, "var", "end");
                return  new Node("if_else", first, null, third);
             }
          }
          else{
             lex.putBackToken(token);
             Node second = parseStatements();
+            token = lex.getNextToken();
             if(token.getDetails() == "end"){
                return  new Node("if_else", first, second, null);
             }
             else{
-               Node third = parseStatements();
-               return  new Node("if_else", first, second, third);
+              lex.putBackToken(token);
+              Node third = parseStatements();
+              return  new Node("if_else", first, second, third);
             }
          }
       }

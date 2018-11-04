@@ -140,19 +140,18 @@ System.out.println("has " + number + " children");
       if(kind.equals("prgrm")) {
         if(first != null) {
           first.evaluate();
-        } else {
+        } 
+        else {
           error("Corgi programs must begin with a function call");
         }
       } 
 
-      else if(kind.equals("fdef"))
-      //might not need this
-       {
+      else if(kind.equals("fdef")) {
         if(first != null) {
           first.execute();
-        }
-        if(second != null) {
-          second.execute();
+          if(second != null) {
+            second.execute();
+          }
         }
       }
       
