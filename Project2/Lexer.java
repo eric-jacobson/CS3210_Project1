@@ -64,7 +64,7 @@ public class Lexer {
                   data += (char) sym;
                   state = 5;
                }
-               else if ( sym == '\"' ) {
+               else if ( sym == '"' ) {
                  state = 6;
                }
                else if ( sym == '+' || sym == '-' || sym == '*' ||
@@ -146,7 +146,7 @@ public class Lexer {
                   data += (char) sym;
                   state = 6;     
                }
-               else if ( sym == '\"' ) {
+               else if ( sym == '"' ) {
                   state = 7;
                   done = true;
                }
@@ -158,7 +158,7 @@ public class Lexer {
                 data = "";
               }
               else {
-                data += (char) sym;
+                putBackSymbol(sym);
                 state = 8;
                 done = true;
               }

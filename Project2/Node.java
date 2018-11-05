@@ -144,6 +144,9 @@ System.out.println("has " + number + " children");
         else {
           error("Corgi programs must begin with a function call");
         }
+        if(second != null){
+          second.evaluate();  // Not sure if this is correct
+        }
       } 
 
       else if(kind.equals("fdef")) {
@@ -155,10 +158,9 @@ System.out.println("has " + number + " children");
         }
       }
       
-      else if(kind.equals("params"))
+      else if(kind.equals("params")) {
       //have to make a new memtable
       //check to see if there's a match
-      {
 
       }
 

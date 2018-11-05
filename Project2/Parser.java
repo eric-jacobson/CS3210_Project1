@@ -36,10 +36,10 @@ public class Parser {
    private Node parseFuncCall(){
       System.out.println("-----> parsing <funcCall>:");
 
-      //Node first = parseVar();
-
       Token token = lex.getNextToken();
+
       String function = token.getDetails();
+      
       token = lex.getNextToken();
       errorCheck( token, "single", "(" );
       token = lex.getNextToken();
@@ -143,7 +143,6 @@ public class Parser {
         return new Node("args", first, null, null);
       } else {
         errorCheck(token, "single", ",");
-        //lex.putBackToken(token);
         Node second = parseArgs();
         return new Node("args", first, second, null);
       }
@@ -166,11 +165,12 @@ public class Parser {
       }
    }// <statements>
 
-   private Node parseStatement() {   
+   private Node parseStatement() {  // TODO: This method needs to be reworked
       System.out.println("-----> parsing <statement>:");
  
       Token token = lex.getNextToken();
 
+      // --------------->>>   <string>
       if ( token.isKind("string") ){
          return new Node( "print", token.getDetails(), null, null, null );
       }
@@ -203,6 +203,17 @@ public class Parser {
          Node first = parseExpr();
          return new Node("return", first, null, null);
       }
+
+      // --------------->>>   <var> = <expr>
+      else if ( token.isKind("var") ) {
+        String varName = token.getDetails();
+        token = lex.getNextToken();
+        errorCheck( token, "single", "=" );
+        Node first = parseExpr();
+        return new Node( "sto", varName, first, null, null );
+     }
+
+     // --------------->>>   <funcCall>
 
       else if ( token.isKind("var") && token.getDetails() == "if" ) {
          Node first = parseExpr();
@@ -316,8 +327,8 @@ public class Parser {
         }
         else {
           lex.putBackToken(temp);
-          return new Node("var", token.getDetails(), null, null, null );
         }
+        return new Node("var", token.getDetails(), null, null, null );
       }
       else if ( token.matches("single","(") ) {
          Node first = parseExpr();
