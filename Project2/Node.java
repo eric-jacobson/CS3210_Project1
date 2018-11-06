@@ -140,26 +140,27 @@ System.out.println("has " + number + " children");
       if(kind.equals("prgrm")) {
         if(first != null) {
           first.evaluate();
-        } else {
+        } 
+        else {
           error("Corgi programs must begin with a function call");
+        }
+        if(second != null){
+          second.evaluate();  // Not sure if this is correct
         }
       } 
 
-      else if(kind.equals("fdef"))
-      //might not need this
-       {
+      else if(kind.equals("fdef")) {
         if(first != null) {
           first.execute();
-        }
-        if(second != null) {
-          second.execute();
+          if(second != null) {
+            second.execute();
+          }
         }
       }
       
-      else if(kind.equals("params"))
+      else if(kind.equals("params")) {
       //have to make a new memtable
       //check to see if there's a match
-      {
 
       }
 

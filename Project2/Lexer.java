@@ -64,7 +64,7 @@ public class Lexer {
                   data += (char) sym;
                   state = 5;
                }
-               else if ( sym == '\"' ) {
+               else if ( sym == '"' ) {
                  state = 6;
                }
                else if ( sym == '+' || sym == '-' || sym == '*' ||
@@ -76,6 +76,7 @@ public class Lexer {
                   done = true;
                }
                else if ( sym == '/'){
+                  data += (char) sym;
                   state = 10;
                }
                else if ( sym == '"'){
@@ -141,11 +142,11 @@ public class Lexer {
             }
 
             else if ( state == 6 ) {
-               if ( (' '<=sym && sym<='~') && sym != '\"' ) {
+               if ( (' '<=sym && sym<='~') && sym != '"' ) {
                   data += (char) sym;
                   state = 6;     
                }
-               else if ( sym == '\"' ) {
+               else if ( sym == '"' ) {
                   state = 7;
                   done = true;
                }
@@ -157,7 +158,7 @@ public class Lexer {
                 data = "";
               }
               else {
-                data += (char) sym;
+                putBackSymbol(sym);
                 state = 8;
                 done = true;
               }
@@ -189,55 +190,54 @@ public class Lexer {
          Token token;
  
          if ( state == 2 ) {
-            // see if data matches any special words
-            if ( data.equals("input")) {
-               return new Token( "bif0", data );
-            }
-            else if ( data.equals("nl") ) {
-              return new Token( "bif1", "" );
-            }
-            else if ( data.equals("sqrt") || data.equals("cos") || 
-                      data.equals("sin") || data.equals("atan") ||
-                      data.equals("not") || data.equals("round")||
-                      data.equals("trunc")||data.equals("print")
-                    ) {
-               return new Token( "bif1", data );
-            }
-            else if ( data.equals("pow")||data.equals("lt")||
-                      data.equals("le")||data.equals("eq")||
-                      data.equals("ne")||data.equals("or")||
-                      data.equals("and")
-             ) {
-               return new Token( "bif2", data );
-            }
-            else if ( data.equals("print") ) {
-              return new Token( "print", "" );
-           }
-           else if ( data.equals("newline") ) {
-              return new Token( "newline", "" );
-           }
-            else {// is just a variable
-               return new Token( "var", data );
-            }
-         }
-         else if ( state == 3 || state == 4 ) {
+          // see if data matches any special words
+          if ( data.equals("nl") || data.equals("input")) {
+              return new Token( "bif0", data );
+          }
+          else if ( data.equals("sqrt") || data.equals("cos") || 
+                    data.equals("sin") || data.equals("atan") ||
+                    data.equals("not") || data.equals("round")||
+                    data.equals("trunc")||data.equals("print")
+                  ) {
+              return new Token( "bif1", data );
+          }
+          else if ( data.equals("pow")||data.equals("lt")||
+                    data.equals("le")||data.equals("eq")||
+                    data.equals("ne")||data.equals("or")||
+                    data.equals("and")
+            ) {
+              return new Token( "bif2", data );
+          }
+          /*
+          else if ( data.equals("print") ) {
+            return new Token( "print", "" );
+          }
+          else if ( data.equals("newline") ) {
+            return new Token( "newline", "" );
+          }
+          */
+          else {// is just a variable
+              return new Token( "var", data );
+          }
+        }          
+        else if ( state == 3 || state == 4 ) {
             return new Token( "num", data );
-         }
-         else if ( state == 7 ) {
+        }
+        else if ( state == 7 ) {
             return new Token( "string", data );
-         }
-         else if ( state == 8 ) {
+        }
+        else if ( state == 8 ) {
             return new Token( "single", data );
-         }
-         else if ( state == 9 ) {
+        }
+        else if ( state == 9 ) {
             return new Token( "eof", data );
-         }
-         /*else if (state == 11){
-           return new Token("comment", data);
-         }*/
-         else {// Lexer error
-           error("somehow Lexer FA halted in bad state " + state );
-           return null;
+        }
+        /*else if (state == 11){
+          return new Token("comment", data);
+        }*/
+        else {// Lexer error
+          error("somehow Lexer FA halted in bad state " + state );
+          return null;
         }
 
      }// else generate token from input
