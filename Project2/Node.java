@@ -144,6 +144,7 @@ System.out.println("has " + number + " children");
         else {
           error("Corgi programs must begin with a function call");
         }
+        
         if(second != null){
           second.evaluate();  // Not sure if this is correct
         }
