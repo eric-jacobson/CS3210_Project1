@@ -6,6 +6,7 @@
 import java.util.*;
 import java.io.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Node {
 
@@ -160,6 +161,14 @@ System.out.println("has " + number + " children");
         }
       }
       
+      else if ( kind.equals("print") ) {
+        System.out.print(info);
+      }
+
+      else if ( kind.equals("nl") ) {
+        System.out.print("\n");
+      }
+      
       else if(kind.equals("params")) {
       //have to make a new memtable
       //check to see if there's a match
@@ -172,7 +181,7 @@ System.out.println("has " + number + " children");
           }
         }
         if (method.first != null) {
-          storeVars(frist, method);
+          //store the variable with info and first
         }
         //execute the nested info
         method.second.execute();
@@ -233,17 +242,14 @@ System.out.println("has " + number + " children");
             return value1 / value2;
        }
        //bif(0):
-       else if ( kind.equals("input") || kind.equals("nl")) {
+       else if ( kind.equals("input")) {
          if ( kind.equals("input") )
-          return keys.nextDouble();       
-         else
-          System.out.print("\n");   
+          return keys.nextDouble();          
        }
        //bif(1):
        //treat bif as a single thing, and then use info to determine the type of bif
        else if ( kind.equals("sqrt") || kind.equals("cos") ||
-                 kind.equals("sin") || kind.equals("atan")  || kind.equals("not") ||
-                 kind.equals("round") || kind.equals("trunc")  || kind.equals("print")
+                 kind.equals("sin") || kind.equals("atan")
                ) {
           double value = first.evaluate();
 
@@ -255,21 +261,6 @@ System.out.println("has " + number + " children");
              return Math.sin( Math.toRadians( value ) );
           else if ( kind.equals("atan") )
              return Math.toDegrees( Math.atan( value ) );
-          else if ( kind.equals("not")) {
-             if (value == 0)
-                return 1;
-             else
-                return 0;
-          }
-          else if ( kind.equals("round")) {
-             return (int) Math.round(value);
-          }
-          else if ( kind.equals("trunc")) {
-             double scale = Math.pow(10, 0);
-             return Math.round(value * scale) / scale;
-          }
-          else if ( kind.equals("print")) 
-             System.out.print(value);
           else {
              error("unknown function name [" + kind + "]");
              return 0;
@@ -340,6 +331,24 @@ System.out.println("has " + number + " children");
            return 1;
         else
            return 0;
+      }
+
+      else if ( kind.equals("not") ) {
+        double value1 = first.evaluate();
+        if (value1 != 0) {
+          return 1;
+        } else
+        return 0;
+      }
+
+      else if ( kind.equals("round") ) {
+        double value1 = first.evaluate();
+        return Math.rint(value1);
+      }
+
+      else if ( kind.equals("trunc") ) {
+        double value1 = first.evaluate();
+        return Math.floor(value1);
       }
 
        else {
