@@ -13,6 +13,8 @@ public class Node {
 
   private int id;
 
+  private static ArrayList<Node> nodes = new ArrayList<Node>();
+
   private String kind;  // non-terminal or terminal category for the node
   private String info;  // extra information about the node such as
                         // the actual identifier for an I
@@ -161,7 +163,19 @@ System.out.println("has " + number + " children");
       else if(kind.equals("params")) {
       //have to make a new memtable
       //check to see if there's a match
-
+        Node method = null;
+        //get the right node
+        for (Node node: nodes) {
+          if (node.info.equals(info)) {
+            method = node;
+            break;
+          }
+        }
+        if (method.first != null) {
+          storeVars(frist, method);
+        }
+        //execute the nested info
+        method.second.execute();
       }
 
       else if ( kind.equals("stmts") ) {
@@ -177,6 +191,11 @@ System.out.println("has " + number + " children");
       else if ( kind.equals("sto") ) {
         double value = first.evaluate();
         table.store( info, value );
+      }
+
+      else if ( kind.equals("end") ) {
+        //executes last command
+        first.execute();
       }
       
       else {
