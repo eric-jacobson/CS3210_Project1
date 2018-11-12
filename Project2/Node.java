@@ -237,11 +237,15 @@ public class Node {
         table.store(info, val);
     }
 
-    // Not sure if this one is needed
-    else if ( kind.equals("end") ) {
-        //executes last command
-        first.execute();
-      }
+    else if (kind.equals("round")) {
+        double val = first.evaluate();
+        table.store(info, val);
+    }
+
+    else if (kind.equals("trunc")) {
+        double val = first.evaluate();
+        table.store(info, val);
+    }
     
     else {
       error("Unknown kind of node [" + kind + "]");
@@ -406,7 +410,7 @@ public class Node {
         }
     }
 
-    else if(kind.equals("ne")) {   //TODO think this is right, no guarantees
+    else if(kind.equals("ne")) {  
         double x = first.evaluate();
         double y = second.evaluate();
         if(x!=y){
@@ -415,6 +419,16 @@ public class Node {
         else {
             return 0;
         }
+    }
+
+    else if(kind.equals("round")) {
+        double value1 = first.evaluate();
+        return Math.rint(value1);
+    }
+
+    else if(kind.equals("trunc")) {
+        double value1 = first.evaluate();
+        return Math.floor(value1);
     }
 
       else {
