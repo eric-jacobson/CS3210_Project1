@@ -237,7 +237,6 @@ public class Node {
         table.store(info, val);
     }
 
-<<<<<<< HEAD
     else if (kind.equals("round")) {
         double val = first.evaluate();
         table.store(info, val);
@@ -247,15 +246,7 @@ public class Node {
         double val = first.evaluate();
         table.store(info, val);
     }
-    */
-=======
-    // Not sure if this one is needed
-    else if ( kind.equals("end") ) {
-        //executes last command
-        first.execute();
-      }
     
->>>>>>> eric_dev
     else {
       error("Unknown kind of node [" + kind + "]");
     }
