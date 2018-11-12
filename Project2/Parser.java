@@ -210,12 +210,12 @@ public class Parser {
          if(token.getDetails().equals("else")){
             token = lex.getNextToken();
             if(token.getDetails().equals("end")){
-               return  new Node("if", first, null, null);
+               return  new Node("ifelse", first, null, null);
             }
             else{
                lex.putBackToken(token);
                Node third = parseStatements();
-               return  new Node("if", first, null, third);
+               return  new Node("ifelse", first, null, third);
             }
          }
          else{
@@ -223,12 +223,12 @@ public class Parser {
             Node second = parseStatements();
             token = lex.getNextToken();
             if(token.getDetails().equals("end")){
-               return  new Node("if", first, second, null);
+               return  new Node("ifelse", first, second, null);
             }
             else{
                lex.putBackToken(token);
                Node third = parseStatements();
-               return  new Node("if", first, second, third);
+               return  new Node("ifelse", first, second, third);
             }
          }
       }
