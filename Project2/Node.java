@@ -18,7 +18,6 @@ public class Node {
   private String kind;  // non-terminal or terminal category for the node
   private String info;  // extra information about the node such as
                         // the actual identifier for an I
-  private static boolean retBool;
 
   // references to children in the parse tree
   private Node first, second, third; 
@@ -92,7 +91,7 @@ public class Node {
   // to children
   public void draw( Camera cam, double x, double y, double h, double v ) {
 
-System.out.println("draw node " + id );
+    System.out.println("draw node " + id );
 
     // set drawing color
     cam.setColor( Color.black );
@@ -105,30 +104,29 @@ System.out.println("draw node " + id );
     // in a nice, uniform manner
     Node[] children = getChildren();
     int number = children.length;
-System.out.println("has " + number + " children");
+    System.out.println("has " + number + " children");
 
     double top = y - 0.75*v;
 
     if( number == 0 ) {
-      return;
+        return;
     }
     else if( number == 1 ) {
-      children[0].draw( cam, x, y-v, h/2, v );     cam.drawLine( x, y, x, top );
+        children[0].draw( cam, x, y-v, h/2, v );     cam.drawLine( x, y, x, top );
     }
     else if( number == 2 ) {
-      children[0].draw( cam, x-h/2, y-v, h/2, v );     cam.drawLine( x, y, x-h/2, top );
-      children[1].draw( cam, x+h/2, y-v, h/2, v );     cam.drawLine( x, y, x+h/2, top );
+        children[0].draw( cam, x-h/2, y-v, h/2, v );     cam.drawLine( x, y, x-h/2, top );
+        children[1].draw( cam, x+h/2, y-v, h/2, v );     cam.drawLine( x, y, x+h/2, top );
     }
     else if( number == 3 ) {
-      children[0].draw( cam, x-h, y-v, h/2, v );     cam.drawLine( x, y, x-h, top );
-      children[1].draw( cam, x, y-v, h/2, v );     cam.drawLine( x, y, x, top );
-      children[2].draw( cam, x+h, y-v, h/2, v );     cam.drawLine( x, y, x+h, top );
+        children[0].draw( cam, x-h, y-v, h/2, v );     cam.drawLine( x, y, x-h, top );
+        children[1].draw( cam, x, y-v, h/2, v );     cam.drawLine( x, y, x, top );
+        children[2].draw( cam, x+h, y-v, h/2, v );     cam.drawLine( x, y, x+h, top );
     }
     else {
-      System.out.println("no Node kind has more than 3 children???");
-      System.exit(1);
+        System.out.println("no Node kind has more than 3 children???");
+        System.exit(1);
     }
-
   }// draw
 
   public static void error( String message ) {
@@ -147,10 +145,11 @@ System.out.println("has " + number + " children");
       else {
         error("Corgi programs must begin with a function call");
       }
-      
+      /*
       if(second != null){
         second.evaluate();  // Not sure if this is correct
       }
+      */
     }
 
     else if ( kind.equals("stmts") ) {
@@ -166,12 +165,12 @@ System.out.println("has " + number + " children");
     }
 
     else if (kind.equals("ifelse")) {
-      if(first.evaluate() != 0){
-        if(second != null){
+      if(first.evaluate() != 0) {
+        if(second != null) {
           second.execute();
         }
       } else {
-          if(third != null){
+          if(third != null) {
             third.execute();
         }
       }
@@ -202,7 +201,7 @@ System.out.println("has " + number + " children");
         double val = first.evaluate();
         table.store(info, val);
     }
-    /*
+    
     else if (kind.equals("lt")) {
         double val = first.evaluate();
         table.store(info, val);
@@ -238,6 +237,7 @@ System.out.println("has " + number + " children");
         table.store(info, val);
     }
 
+<<<<<<< HEAD
     else if (kind.equals("round")) {
         double val = first.evaluate();
         table.store(info, val);
@@ -248,6 +248,14 @@ System.out.println("has " + number + " children");
         table.store(info, val);
     }
     */
+=======
+    // Not sure if this one is needed
+    else if ( kind.equals("end") ) {
+        //executes last command
+        first.execute();
+      }
+    
+>>>>>>> eric_dev
     else {
       error("Unknown kind of node [" + kind + "]");
     }
@@ -257,13 +265,13 @@ System.out.println("has " + number + " children");
    // compute and return value produced by this node
    public double evaluate() {
 
-    if(kind.equals("fcall")){
+    if(kind.equals("fcall")) {       // not sure what to do with fcall and fdefs
 
     }
 
-    else if(kind.equals("fdefs")){
+    //else if(kind.equals("fdefs")) {
 
-    }
+    //}
 
     else if ( kind.equals("num") ) {
       return Double.parseDouble( info );
@@ -437,7 +445,7 @@ System.out.println("has " + number + " children");
         return 0;
       }
 
-      return 0;
+      return 0; // Temporary return for if conditions that don't return anything yet
 
    }// evaluate
 
