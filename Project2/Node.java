@@ -145,10 +145,11 @@ public class Node {
       else {
         error("Corgi programs must begin with a function call");
       }
-      
+      /*
       if(second != null){
         second.evaluate();  // Not sure if this is correct
       }
+      */
     }
 
     else if ( kind.equals("stmts") ) {
@@ -255,9 +256,9 @@ public class Node {
 
     }
 
-    else if(kind.equals("fdefs")) {
+    //else if(kind.equals("fdefs")) {
 
-    }
+    //}
 
     else if ( kind.equals("num") ) {
       return Double.parseDouble( info );
