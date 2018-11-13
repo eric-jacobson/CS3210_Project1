@@ -145,11 +145,12 @@ public class Node {
     if(kind.equals("prgrm")) {
       if(second != null) {
           root = second;
+      } else {
+          error("Missing function definitions");
       }
       if(first != null) {
         first.evaluate();
-      } 
-      else {
+      } else {
         error("Corgi programs must begin with a function call");
       }
     }
@@ -201,16 +202,17 @@ public class Node {
       }
     }
     
-    else if(kind.equals("return")){
+    else if(kind.equals("return")) {
         retVal = first.evaluate();
         ret = true;
     }    
 
-    else if ( kind.equals("prtstr") ) {
+    else if ( kind.equals("printString") ) {
       System.out.print( info );
     }
 
     else if ( kind.equals("print") ) {
+        //System.out.println(first);
         double value = first.evaluate();
         if (value % 1 == 0) {
             System.out.print( (int) value );
@@ -227,52 +229,7 @@ public class Node {
         double val = first.evaluate();
         table.store(info, val);
     }
-    /*
-    else if (kind.equals("lt")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-
-    else if (kind.equals("le")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-
-    else if (kind.equals("eq")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-
-    else if (kind.equals("ne")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-
-    else if (kind.equals("or")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-
-    else if (kind.equals("and")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-
-    else if (kind.equals("not")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-
-    else if (kind.equals("round")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-
-    else if (kind.equals("trunc")) {
-        double val = first.evaluate();
-        table.store(info, val);
-    }
-    */
+    
     else {
       error("Unknown kind of node [" + kind + "]");
     }
@@ -283,12 +240,12 @@ public class Node {
    public double evaluate() {
 
     if(kind.equals("fcall")) {
-        Node node = root;
         boolean eof = false;
         boolean funcFound = false;
         arg = first;
+        Node node = root;
 
-        while(!eof && !funcFound) {
+        while(!funcFound && !eof) {
             if(info.equals(node.first.info)){
                 funcFound = true;
                 node.first.execute();
@@ -418,53 +375,9 @@ public class Node {
         else return 0;
     }
 
-    else if(kind.equals("lt")){
-        double x = first.evaluate();
-        double y = second.evaluate();
-        if (x<y){
-            return 1;
-        }
-        else{
-            return 0;
-        }
-    }
-
-    else if(kind.equals("le")) {
-        double x = first.evaluate();
-        double y = second.evaluate();
-        if(x<=y){
-            return 1;
-        }
-        else {
-            return 0;
-        }
-    }
-
-    else if(kind.equals("eq")) {
-        double x = first.evaluate();
-        double y = second.evaluate();
-        if(x == y) {
-            return 1;
-        }
-        else {
-            return 0;
-        }
-    }
-
-    else if(kind.equals("ne")) {  
-        double x = first.evaluate();
-        double y = second.evaluate();
-        if(x!=y){
-            return 1;
-        }
-        else {
-            return 0;
-        }
-    }
-
     else if(kind.equals("round")) {
         double value1 = first.evaluate();
-        return Math.rint(value1);
+        return (int) Math.round(value1);
     }
 
     else if(kind.equals("trunc")) {

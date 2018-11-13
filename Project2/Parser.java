@@ -172,7 +172,7 @@ public class Parser {
 
       // --------------->>>   <string>
       if ( token.isKind("string") ){
-         return new Node( "print", token.getDetails(), null, null, null );
+         return new Node( "printString", token.getDetails(), null, null, null );
       }
 
       else if ( token.matches("bif0","nl") ) {
@@ -192,7 +192,7 @@ public class Parser {
          return new Node( "print", first, null, null );
       }
 
-      if( token.isKind("bif1")|| token.isKind("bif2")) {
+      if( token.isKind("bif1") || token.isKind("bif2")) {
          Node first = parseParams();
          token = lex.getNextToken();
          errorCheck( token, "single", "(" );
