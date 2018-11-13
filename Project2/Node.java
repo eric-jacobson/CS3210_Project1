@@ -11,6 +11,8 @@ public class Node {
 
   public static int count = 0;  // maintain unique id for each node
 
+  private static boolean ret;
+
   private static double retVal;
 
   private int id;
@@ -18,6 +20,8 @@ public class Node {
   private String kind;  // non-terminal or terminal category for the node
   private String info;  // extra information about the node such as
                         // the actual identifier for an I
+
+  private static Node root, arg, param;
 
   // references to children in the parse tree
   private Node first, second, third; 
@@ -139,17 +143,38 @@ public class Node {
    public void execute() {
 
     if(kind.equals("prgrm")) {
+      if(second != null) {
+          root = second;
+      }
       if(first != null) {
         first.evaluate();
       } 
       else {
         error("Corgi programs must begin with a function call");
       }
-      /*
-      if(second != null){
-        second.evaluate();  // Not sure if this is correct
-      }
-      */
+    }
+
+    else if (kind.equals("fdef")) {
+        param = first;
+        while((arg != null) && (param != null)){
+
+            table.store(param.first.info, arg.first.evaluate());
+
+            if(param != null){
+                param = param.first;
+            }
+            if(arg != null){
+                arg = arg.second;
+            }
+        }
+
+        if((arg != null) || (param != null)) {
+            error("Incorrect argument count for function [" + info + "]");
+        }
+
+        if(second != null) {
+            second.execute();
+        }
     }
 
     else if ( kind.equals("stmts") ) {
@@ -159,7 +184,7 @@ public class Node {
         first.execute();
       }
 
-      if (second != null) {
+      if (second != null && !ret) {
           second.execute();
       }
     }
@@ -174,6 +199,11 @@ public class Node {
             third.execute();
         }
       }
+    }
+    
+    else if(kind.equals("return")){
+        retVal = first.evaluate();
+        ret = true;
     }    
 
     else if ( kind.equals("prtstr") ) {
@@ -193,15 +223,11 @@ public class Node {
       System.out.print( "\n" );
     }
 
-    else if(kind.equals("return")){
-      retVal = first.evaluate();
-    }
-
     else if ( kind.equals("sto") ) {
         double val = first.evaluate();
         table.store(info, val);
     }
-    
+    /*
     else if (kind.equals("lt")) {
         double val = first.evaluate();
         table.store(info, val);
@@ -246,7 +272,7 @@ public class Node {
         double val = first.evaluate();
         table.store(info, val);
     }
-    
+    */
     else {
       error("Unknown kind of node [" + kind + "]");
     }
@@ -256,13 +282,28 @@ public class Node {
    // compute and return value produced by this node
    public double evaluate() {
 
-    if(kind.equals("fcall")) {       // not sure what to do with fcall and fdefs
+    if(kind.equals("fcall")) {
+        Node node = root;
+        boolean eof = false;
+        boolean funcFound = false;
+        arg = first;
 
+        while(!eof && !funcFound) {
+            if(info.equals(node.first.info)){
+                funcFound = true;
+                node.first.execute();
+            } else {
+                if(node.second != null) {
+                    node = node.second;
+                } else {
+                    eof = true;
+                    error("Could not find function [" + info + "]");
+                }
+            }
+        }
+        ret = false;
+        return retVal;
     }
-
-    //else if(kind.equals("fdefs")) {
-
-    //}
 
     else if ( kind.equals("num") ) {
       return Double.parseDouble( info );
@@ -428,15 +469,13 @@ public class Node {
 
     else if(kind.equals("trunc")) {
         double value1 = first.evaluate();
-        return Math.floor(value1);
+        return (double) Math.floor(value1);
     }
 
       else {
         error("Unknown node kind [" + kind + "]");
         return 0;
       }
-
-      return 0; // Temporary return for if conditions that don't return anything yet
 
    }// evaluate
 
