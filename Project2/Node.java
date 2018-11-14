@@ -11,7 +11,7 @@ public class Node {
 
   public static int count = 0;  // maintain unique id for each node
 
-  private static boolean ret;
+  private static boolean retBool;
 
   private static double retVal;
 
@@ -159,7 +159,7 @@ public class Node {
         param = first;
         while((arg != null) && (param != null)){
 
-            table.store(param.first.info, arg.first.evaluate());
+            table.store(param.info, arg.first.evaluate());
 
             if(param != null){
                 param = param.first;
@@ -185,7 +185,7 @@ public class Node {
         first.execute();
       }
 
-      if (second != null && !ret) {
+      if (second != null && !retBool) {
           second.execute();
       }
     }
@@ -204,7 +204,7 @@ public class Node {
     
     else if(kind.equals("return")) {
         retVal = first.evaluate();
-        ret = true;
+        retBool = true;
     }    
 
     else if ( kind.equals("printString") ) {
@@ -258,7 +258,7 @@ public class Node {
                 }
             }
         }
-        ret = false;
+        retBool = false;
         return retVal;
     }
 
