@@ -20,7 +20,7 @@ public class Corgi {
     /**
      * Made it optional to graphically display the parse tree, fixes issue where the program would not wait for
      * inputs and immediately start drawing the tree, putting the TreeViewer after root.execute() also
-     * fixes the problem but doesn't wait give the user the chance to view the output
+     * fixes the problem but doesn't give the user the chance to view the output
      * 
      */  
     System.out.println("Would you like to view the parse tree? (yes/no)");
