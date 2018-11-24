@@ -21,13 +21,13 @@ public class Node {
   private String info;  // extra information about the node such as
                         // the actual identifier for an I
 
-  private static Node root, arg, param;
-
   // references to children in the parse tree
-  private Node first, second, third; 
+  private Node first, second, third;
+  private static Node root, arg, param; 
 
   // memory table shared by all nodes
-  private static MemTable table = new MemTable();
+  //private static MemTable table = new MemTable();
+  private static Stack<MemTable> memStack;
 
   private static Scanner keys = new Scanner( System.in );
 
@@ -143,19 +143,21 @@ public class Node {
    public void execute() {
 
     if(kind.equals("prgrm")) {
-      if(second != null) {
-          root = second;
-      } else {
-          error("Missing function definitions");
-      }
-      if(first != null) {
+        memStack = new Stack<MemTable>();
+        if(second != null) {
+            root = second;
+        } else {
+            error("Missing function definitions");
+        }
+        if(first != null) {
         first.evaluate();
-      } else {
+        } else {
         error("Corgi programs must begin with a function call");
-      }
+        }
     }
 
     else if (kind.equals("fdef")) {
+        MemTable table = memStack.pop();
         param = first;
         while((arg != null) && (param != null)){
 
@@ -173,33 +175,35 @@ public class Node {
             error("Incorrect argument count for function [" + info + "]");
         }
 
+        memStack.push(table);
+
         if(second != null) {
             second.execute();
         }
     }
 
     else if ( kind.equals("stmts") ) {
-      if(first != null && first.kind.equals("fcall")) {
-        first.evaluate();
-      } else if (first != null) {
-        first.execute();
-      }
+        if(first != null && first.kind.equals("fcall")) {
+            first.evaluate();
+        } else if (first != null) {
+            first.execute();
+        }
 
-      if (second != null && !retBool) {
-          second.execute();
-      }
+        if (second != null && !retBool) {
+            second.execute();
+        }
     }
 
     else if (kind.equals("ifelse")) {
-      if(first.evaluate() != 0) {
-        if(second != null) {
-          second.execute();
+        if(first.evaluate() != 0) {
+            if(second != null) {
+            second.execute();
+            }
+        } else {
+            if(third != null) {
+                third.execute();
+            }
         }
-      } else {
-          if(third != null) {
-            third.execute();
-        }
-      }
     }
     
     else if(kind.equals("return")) {
@@ -227,7 +231,9 @@ public class Node {
 
     else if ( kind.equals("sto") ) {
         double val = first.evaluate();
+        MemTable table = memStack.pop();
         table.store(info, val);
+        memStack.push(table);
     }
     
     else {
@@ -242,6 +248,7 @@ public class Node {
     if(kind.equals("fcall")) {
         boolean eof = false;
         boolean funcFound = false;
+        memStack.push(new MemTable());
         arg = first;
         Node node = root;
 
@@ -258,6 +265,7 @@ public class Node {
                 }
             }
         }
+        memStack.pop();
         retBool = false;
         return retVal;
     }
@@ -267,7 +275,10 @@ public class Node {
     }
 
     else if ( kind.equals("var") ) {
-        return table.retrieve( info );
+        MemTable table = memStack.pop();
+        double val = table.retrieve(info);
+        memStack.push(table);
+        return val;
     }
 
     else if ( kind.equals("+") || kind.equals("-") ) {
