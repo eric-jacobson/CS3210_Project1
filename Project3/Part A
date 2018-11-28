@@ -1,4 +1,4 @@
-;Kinda works
+;works!!!!
 #lang racket
 (define myList '())
 (define add
@@ -7,10 +7,15 @@
                (cons new-item myList))
         myList))
 
+(define (insertAtFront elt lst)
+  (map (lambda (x)
+         (cons elt x))
+       lst))
 (define (genTours m)
 (if (< m 2)
       null
       (cons (add m) (genTours(- m 1)))
       )
-  (permutations myList)
+  (insertAtFront 1
+  (permutations myList))
   )
