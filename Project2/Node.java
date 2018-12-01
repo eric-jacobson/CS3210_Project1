@@ -21,6 +21,8 @@ public class Node {
   private String info;  // extra information about the node such as
                         // the actual identifier for an I
 
+  private static Node root, arg, param;
+
   // references to children in the parse tree
   private Node first, second, third;
   private static Node root, arg, param; 
@@ -33,7 +35,7 @@ public class Node {
 
   // construct a common node with no info specified
   public Node( String k, Node one, Node two, Node three ) {
-    kind = k;  info = "";  
+    kind = k;  info = "";
     first = one;  second = two;  third = three;
     id = count;
     count++;
@@ -42,7 +44,7 @@ public class Node {
 
   // construct a node with specified info
   public Node( String k, String inf, Node one, Node two, Node three ) {
-    kind = k;  info = inf;  
+    kind = k;  info = inf;
     first = one;  second = two;  third = three;
     id = count;
     count++;
@@ -51,7 +53,7 @@ public class Node {
 
   // construct a node that is essentially a token
   public Node( Token token ) {
-    kind = token.getKind();  info = token.getDetails();  
+    kind = token.getKind();  info = token.getDetails();
     first = null;  second = null;  third = null;
     id = count;
     count++;
@@ -59,7 +61,7 @@ public class Node {
   }
 
   public String toString() {
-    return "#" + id + "[" + kind + "," + info + "]<" + nice(first) + 
+    return "#" + id + "[" + kind + "," + info + "]<" + nice(first) +
               " " + nice(second) + ">";
   }
 
@@ -241,7 +243,7 @@ public class Node {
     }
 
    }// execute
-    
+
    // compute and return value produced by this node
    public double evaluate() {
 

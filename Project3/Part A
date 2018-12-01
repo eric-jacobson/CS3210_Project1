@@ -19,3 +19,9 @@
   (insertAtFront 1
   (permutations myList))
   )
+
+(define (add ver1 ver2
+  ;(car(car ver1)) + (car(cdr ver2))
+  void
+  )
+)

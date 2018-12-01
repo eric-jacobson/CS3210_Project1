@@ -1,5 +1,5 @@
 /*
-    This class provides a recursive descent parser 
+    This class provides a recursive descent parser
     for Corgi (a simple calculator language),
     creating a parse tree which can be interpreted
     to simulate execution of a Corgi program
@@ -23,7 +23,7 @@ public class Parser {
 
       // Look ahead to see if a funcDef follows the funcCall
       Token token = lex.getNextToken();
-      
+
       if(token.isKind("eof")){
         return new Node("prgrm", first, null, null);
       } else {
@@ -39,7 +39,7 @@ public class Parser {
       Token token = lex.getNextToken();
 
       String function = token.getDetails();
-      
+
       token = lex.getNextToken();
       errorCheck( token, "single", "(" );
       token = lex.getNextToken();
@@ -77,7 +77,7 @@ public class Parser {
 
    private Node parseFuncDef(){
       System.out.println("-----> parsing <params>:");
-      
+
       Token token = lex.getNextToken();
 
       errorCheck( token, "var", "def" );
@@ -150,11 +150,11 @@ public class Parser {
 
    private Node parseStatements() {
       System.out.println("-----> parsing <statements>:");
- 
+
       Node first = parseStatement();
- 
+
       Token token = lex.getNextToken();
- 
+
       if ( token.isKind("eof") || token.matches("var", "else") || token.matches("var", "end")) {
          return new Node( "stmts", first, null, null );
       }
@@ -167,7 +167,7 @@ public class Parser {
 
    private Node parseStatement() {
       System.out.println("-----> parsing <statement>:");
- 
+
       Token token = lex.getNextToken();
 
       // --------------->>>   <string>
@@ -289,7 +289,7 @@ public class Parser {
       Node first = parseFactor();
 
       Token token = lex.getNextToken();
- 
+
       if ( token.matches("single", "*") || token.matches("single", "/")) {
          Node second = parseTerm();
          return new Node( token.getDetails(), first, second, null );
@@ -297,7 +297,7 @@ public class Parser {
          lex.putBackToken( token );
          return first;
       }
-      
+
    }// <term>
 
    private Node parseFactor() {
@@ -341,7 +341,7 @@ public class Parser {
          errorCheck( token, "single", "(" );
          Node first = parseExpr();
          token = lex.getNextToken();
-         errorCheck( token, "single", ")" );         
+         errorCheck( token, "single", ")" );
          return new Node( bif, first, null, null );
       }
       else if ( token.isKind("bif2") ) {
@@ -353,7 +353,7 @@ public class Parser {
          errorCheck( token, "single", "," );
          Node second = parseExpr();
          token = lex.getNextToken();
-         errorCheck( token, "single", ")" );         
+         errorCheck( token, "single", ")" );
          return new Node( bif, first, second, null );
       }
       else if ( token.matches("single","-") ) {
@@ -365,22 +365,22 @@ public class Parser {
          System.exit(1);
          return null;
       }
-      
+
    }// <factor>
 
   private void errorCheck( Token token, String kind ) {
     if( ! token.isKind( kind ) ) {
-      System.out.println("Error:  expected " + token + 
+      System.out.println("Error:  expected " + token +
                          " to be of kind " + kind );
       System.exit(1);
     }
   }
 
   private void errorCheck( Token token, String kind, String details ) {
-    if( ! token.isKind( kind ) || 
+    if( ! token.isKind( kind ) ||
         ! token.getDetails().equals( details ) ) {
-      System.out.println("Error:  expected " + token + 
-                          " to be kind = " + kind + 
+      System.out.println("Error:  expected " + token +
+                          " to be kind = " + kind +
                           " and details = " + details );
       System.exit(1);
     }

@@ -14,7 +14,7 @@ public class Lexer {
 
    // one lookahead physical symbol
    private int lookahead;
- 
+
    // construct a Lexer ready to produce tokens from a file
    public Lexer( String fileName ) {
      try {
@@ -26,7 +26,7 @@ public class Lexer {
      stack = new Stack<Token>();
      lookahead = 0;  // indicates no lookahead symbol present
    }// constructor
- 
+
    // produce the next token
    private Token getNext() {
       if( ! stack.empty() ) {
@@ -39,9 +39,9 @@ public class Lexer {
 
          int state = 1;  // state of FA
          String data = "";  // specific info for the token
-         boolean done = false;  
+         boolean done = false;
          int sym;  // holds current symbol
- 
+
          do {
             sym = getNextSymbol();
 
@@ -68,7 +68,7 @@ public class Lexer {
                  state = 6;
                }
                else if ( sym == '+' || sym == '-' || sym == '*' ||
-                         sym == '(' || sym == ')' ||sym == ',' || 
+                         sym == '(' || sym == ')' ||sym == ',' ||
                          sym == '='
                        ) {
                   data += (char) sym;
@@ -91,7 +91,7 @@ public class Lexer {
                                       + sym + " in state " + state );
                }
             }
- 
+
             else if ( state == 2 ) {
                if ( letter(sym) || digit(sym) ) {
                   data += (char) sym;
@@ -144,7 +144,7 @@ public class Lexer {
             else if ( state == 6 ) {
                if ( (' '<=sym && sym<='~') && sym != '"' ) {
                   data += (char) sym;
-                  state = 6;     
+                  state = 6;
                }
                else if ( sym == '"' ) {
                   state = 7;
@@ -185,16 +185,16 @@ public class Lexer {
             //       no arcs out of them, so they are handled
             //       in the arc going into them
          }while( !done );
-       
+
          // generate token depending on stopping state
          Token token;
- 
+
          if ( state == 2 ) {
           // see if data matches any special words
           if ( data.equals("input") || data.equals("nl")) {
               return new Token( "bif0", data );
           }
-          else if ( data.equals("sqrt") || data.equals("cos") || 
+          else if ( data.equals("sqrt") || data.equals("cos") ||
                     data.equals("sin") || data.equals("atan") ||
                     data.equals("not") || data.equals("round")||
                     data.equals("trunc")||data.equals("print")
@@ -219,7 +219,7 @@ public class Lexer {
           else {// is just a variable
               return new Token( "var", data );
           }
-        }          
+        }
         else if ( state == 3 || state == 4 ) {
             return new Token( "num", data );
         }
@@ -241,26 +241,26 @@ public class Lexer {
         }
 
      }// else generate token from input
- 
+
    }// getNext
-   
+
    public Token getNextToken() {
      Token token = getNext();
      System.out.println("                     got token: " + token );
      return token;
    }
- 
+
    public void putBackToken( Token token )
    {
      System.out.println( margin + "put back token " + token.toString() );
      stack.push( token );
    }
- 
+
    // next physical symbol is the lookahead symbol if there is one,
    // otherwise is next symbol from file
    private int getNextSymbol() {
      int result = -1;
- 
+
      if( lookahead == 0 ) {// is no lookahead, use input
        try{  result = input.read();  }
        catch(Exception e){}
@@ -271,7 +271,7 @@ public class Lexer {
      }
      return result;
    }
- 
+
    private void putBackSymbol( int sym ) {
      if( lookahead == 0 ) {// sensible to put one back
        lookahead = sym;
@@ -282,38 +282,38 @@ public class Lexer {
        System.exit(1);
      }
    }// putBackSymbol
- 
-   private boolean letter( int code ) {  
+
+   private boolean letter( int code ) {
       return 'a'<=code && code<='z' ||
              'A'<=code && code<='Z';
    }
- 
-   private boolean digit( int code ) {  
+
+   private boolean digit( int code ) {
      return '0'<=code && code<='9';
    }
- 
-   private boolean printable( int code ) {  
+
+   private boolean printable( int code ) {
      return ' '<=code && code<='~';
    }
- 
+
    private static void error( String message ) {
      System.out.println( message );
      System.exit(1);
    }
- 
+
    public static void main(String[] args) throws Exception {
      System.out.print("Enter file name: ");
      Scanner keys = new Scanner( System.in );
      String name = keys.nextLine();
- 
+
      Lexer lex = new Lexer( name );
      Token token;
- 
+
      do{
        token = lex.getNext();
        System.out.println( token.toString() );
      }while( ! token.getKind().equals( "eof" )  );
-     
+
    }
- 
+
 }
