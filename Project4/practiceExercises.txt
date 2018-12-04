@@ -1,0 +1,85 @@
+Problem A
+
+find-bigger(A,[A],0).
+find-bigger(_, [], []).
+
+
+find-bigger(A, [H|T], [H|L]):-
+    A < H,
+    find-bigger( A, T, L).
+find-bigger(A, [H|T], L):-
+    A>=H, 
+    find-bigger(A, T, L).
+
+
+
+Problem B
+
+sort-neighbors([],[]).
+sort-neighbors([A],[A]).
+sort-neighbors([A,B|X],[B,A|Y]) :-
+   A>=B,
+   sort-neighbors(X,Y).
+sort-neighbors([A,B|X],[A,B|Y]) :-
+   A<B,
+   sort-neighbors(X,Y).
+
+
+
+Problem C
+
+locate(X,[X|_], 0).
+locate( X,[_|T],H) :- 
+    locate( X,T,H1), 
+    H is H1 + 1.
+
+
+
+
+Problem D
+
+mix(X, Y, _R) :-
+    (\+is_list(X); \+is_list(Y)),
+    !,
+    write('bad args'), 
+    nl.
+
+
+mix([], R, R).
+
+mix(R, [], R).
+
+mix([H1 | T1], [H2 | T2], [H1, H2 | R]) :-
+    mix(T1, T2, R).
+
+
+
+
+Problem E(a)
+
+fib(F0, F1, N, F):-
+    
+    N is 1,
+    F0 is F0,
+    F is F1.
+    
+fib(F0, F1, N, F):-
+    
+    N is 0,
+    F1 is F1,
+    F is F0.
+    
+
+fib(F0, F1, N,F):-
+    
+    N>1,
+    N1 is N-1,
+    N2 is N-2,
+    fib(F0,F1, N1, FX),
+       
+    
+       
+    fib(F0,F1, N2, FY),
+       
+       
+    F is FX + FY.
