@@ -1,6 +1,7 @@
 ;works!!!!
 #lang racket
 (define myList '())
+
 (define add
       (lambda (new-item)
          (set! myList
@@ -11,6 +12,7 @@
   (map (lambda (x)
          (cons elt x))
        lst))
+
 (define (genTours m)
 (if (< m 2)
       null
@@ -20,8 +22,23 @@
   (permutations myList))
   )
 
-(define (add ver1 ver2
-  ;(car(car ver1)) + (car(cdr ver2))
-  void
-  )
+(define first 0)
+(define (score positions tour)
+  null
+)
+
+(define (best positions tour)
+  null
+)
+
+(define (count tour)
+  null
+)
+
+(define (count2 positions)
+  null
+)
+
+(define (pytha num)
+  (sqrt (+ (* (list-ref num 0)(list-ref num 0))(* (list-ref num 1)(list-ref num 1))))
 )
