@@ -23,7 +23,7 @@
 (define (count num)
   (cond
     ((equal? num '()) 0)
-    (+ 1 (count (cdr num))))
+    ( #t (+ 1 (count (cdr num)))))
   )
 
 (define (trevList list x)
@@ -68,15 +68,15 @@
 ;Part C
 "takes in list of positions and returns an optimal tour"
 (define (etsp positions)
-  (calcSmallest (genTours (count positions)) (score positions (trevList (makeList (length positions)) '())) (trevList (makeList (length positions)) '()))
+  (remove-duplicates (calcSmall positions (genTours (length positions)) (score positions (trevList (makeList (length positions)) '())) (trevList (makeList (length positions)) '())))
   )
 
-(define (calcSmallest positions lists value best)
+(define (calcSmall positions lists value best)
   (if (null? (cdr lists))
       (if (< (score positions (car lists)) value)
           (car lists)
           best)
       (if (< (score positions (car lists)) value)
-          (calcSmallest positions (cdr lists) (score positions (car lists)) (car lists))
-          (calcSmallest positions (cdr lists) value best)))
+          (calcSmall positions (cdr lists) (score positions (car lists)) (car lists))
+          (calcSmall positions (cdr lists) value best)))
   )
