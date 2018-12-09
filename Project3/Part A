@@ -68,7 +68,7 @@
 ;Part C
 "takes in list of positions and returns an optimal tour"
 (define (etsp positions)
-  (calcSmall positions (genTours (length positions)) (score positions (trevList (makeList (length positions)) '())) (trevList (makeList (length positions)) '()))
+  (remove-duplicates (calcSmall positions (genTours (length positions)) (score positions (trevList (makeList (length positions)) '())) (trevList (makeList (length positions)) '())))
   )
 
 (define (calcSmall positions lists value best)
