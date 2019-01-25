@@ -13,7 +13,7 @@
  memorySize is an integer value  
  
  ## Project 2  
- Compiler for Corgi, a simple calculator language 
+ Java interpreter for Corgi, a simple calculator language 
    
  To run: 
  javac Corgi.java  
